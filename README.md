@@ -397,3 +397,74 @@ NOTE:
 │                                              │
 └──────────────────────────────────────────────┘
 ```
+
+### **What is a Job Artifact in GitLab CI/CD?**
+
+A job artifact is a file or folder created by one job and saved by GitLab so it can be downloaded or used by later jobs.
+
+Why job artifacts are needed : Each job runs in a new machine, and all files are deleted when the job ends.
+
+This is why our test_car job is failing—after the build_car job finishes, its files are removed, so when test_car starts, the required files do not exist and the job throws an error.
+
+```
+1. Build job runs  
+2. File is created  
+3. GitLab saves the file as an artifact  
+4. Job ends (machine is destroyed)  
+5. Next job starts  
+6. GitLab downloads the artifact  
+7. File is available in the next job  
+```
+
+```
+build_car:
+  stage: build
+  script:
+    - mkdir build
+    - echo "chassis" > build/car.txt
+  artifacts:
+    paths:
+      - build/car.txt
+```
+
+The final working script file is
+```
+stages:
+    - build
+    - test
+
+build_car:
+    image: alpine
+    stage: build
+    script:
+        - echo "Building the car"
+        - mkdir build
+        - cd build
+        - touch car.txt
+        - echo "chessis" > car.txt
+    artifacts:
+        paths:
+            - build/
+
+test_car:
+    image: alpine
+    stage: test
+    script:
+        - test -f build/car.txt 
+        - grep 'chessis' build/car.txt
+```
+
+### **GitLab CI/CD Architecture**
+
+GitLab CI/CD architecture describes how code moves from a developer’s laptop to automated build, test, and deployment using GitLab Server and GitLab Runner.
+
+GitLab CI/CD has two core components:
+
+**GitLab Server**
+gitLab server manages the CI/CD process by creating pipelines, assigning jobs to runners, and storing logs and results.
+
+For example, when a developer pushes code, the GitLab Server reads the .gitlab-ci.yml file and creates a pipeline with build and test jobs.
+
+**GitLab Runner** gitLab runner executes the jobs created by the GitLab Server by running commands in a Linux or Docker environment.
+
+For example, when the Server assigns a build job, the Runner runs commands like mkdir, echo, or npm test and sends the result back.
