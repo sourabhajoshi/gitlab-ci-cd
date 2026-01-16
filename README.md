@@ -458,13 +458,49 @@ test_car:
 
 GitLab CI/CD architecture describes how code moves from a developer’s laptop to automated build, test, and deployment using GitLab Server and GitLab Runner.
 
-GitLab CI/CD has two core components:
+GitLab CI/CD has two core components: GitLab Server and GitLab Runner
 
-**GitLab Server**
-gitLab server manages the CI/CD process by creating pipelines, assigning jobs to runners, and storing logs and results.
+**GitLab Server** manages the CI/CD process by creating pipelines, assigning jobs to runners, and storing logs and results.
+- Hosts the source code repository
+- Reads .gitlab-ci.yml file
+- Creates pipelines, stages, and jobs
+- Assigns jobs to available runners
+- Stores logs, artifacts, and job results
 
 For example, when a developer pushes code, the GitLab Server reads the .gitlab-ci.yml file and creates a pipeline with build and test jobs.
 
-**GitLab Runner** gitLab runner executes the jobs created by the GitLab Server by running commands in a Linux or Docker environment.
+**GitLab Runner** executes the jobs created by the GitLab Server by running commands in a Linux or Docker environment.
+- A machine or agent that executes CI/CD jobs
+- Polls GitLab Server for jobs
+- Runs job commands in isolated environments (usually Docker/Linux)
+- Sends execution logs and status back to GitLab Server
 
 For example, when the Server assigns a build job, the Runner runs commands like mkdir, echo, or npm test and sends the result back.
+
+```
+Developer push
+→ GitLab Server creates pipeline
+→ GitLab Server assigns job
+→ GitLab Runner executes job
+→ Results sent back to GitLab Server
+```
+
+### **ow to write comments in a .yml (YAML) file**
+
+In YAML, comments are written using the # symbol.
+```
+# This is a comment
+build_job:
+  script:
+    - echo "Hello"
+```
+
+YAML does NOT support block comments like /* */
+```
+# This job builds the car
+# It creates required files
+# Output is saved as artifacts
+build_car:
+  script:
+    - echo "Building the car"
+```
