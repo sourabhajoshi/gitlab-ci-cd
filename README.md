@@ -485,7 +485,7 @@ Developer push
 → Results sent back to GitLab Server
 ```
 
-### **How to write comments in a .yml (YAML) file**
+### **ow to write comments in a .yml (YAML) file**
 
 In YAML, comments are written using the # symbol.
 ```
