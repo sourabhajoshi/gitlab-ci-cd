@@ -8,7 +8,7 @@ GitLab CI/CD is an automation system built into GitLab that automatically builds
 
 It is configured using a single file called .gitlab-ci.yml stored in your repository.
 
-### **Without GitLab CI/CD**
+### **Without GitLab CI/CD**    
 
 Priya is a Software / Full-Stack developer working on a food-delivery web application.
 
