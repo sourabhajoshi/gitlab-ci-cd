@@ -1,4 +1,4 @@
-## **GitLab CI/CD**   
+## **GitLab CI/CD**     
 
 GitLab CI/CD is an automation system built into GitLab that automatically builds, tests, and deploys the code every time we push changes to a repository.
 
